@@ -9,13 +9,30 @@ function App() {
   const addTaskList = (taskObj) => {
     const obj = {
       ...taskObj,
-
       id: randomIdGenerator(),
       type: "entry",
     };
     setTaskList([...taskList, obj]);
     console.log(taskObj);
   };
+
+  // Switch tasks or items
+
+  const switchTask = (id, type) => {
+    //   console.log(id, type);
+
+    setTaskList(
+      taskList.map((item) => {
+        console.log(item);
+
+        if (item.id === id) {
+          item.type = type;
+        }
+        return item;
+      })
+    );
+  };
+
   console.log(taskList);
 
   // Creating unique ID
@@ -33,6 +50,7 @@ function App() {
     }
     return id;
   };
+
   return (
     <div className="wrapper pt-5">
       {/* <!-- title  --> */}
@@ -44,7 +62,7 @@ function App() {
         <Form addTaskList={addTaskList} />
 
         {/* <!-- tables   --> */}
-        <Table taskList={taskList} />
+        <Table taskList={taskList} switchTask={switchTask} />
         <br />
         <div className="alert alert-success">
           The total hours allocated = <span id="ttlHrs">0</span> hrs
