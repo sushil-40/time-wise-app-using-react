@@ -3,6 +3,7 @@ import React from "react";
 
 export const Table = ({ taskList }) => {
   const entryList = taskList.filter((item) => item.type === "entry");
+  const badList = taskList.filter((item) => item.type === "bad");
 
   return (
     <div className="row mt-5">
@@ -52,7 +53,35 @@ export const Table = ({ taskList }) => {
 
             <hr />
             <table className="table table-striped table-hover border">
-              <tbody id="badList"></tbody>
+              <tbody id="badList">
+                {badList.map((item, i) => {
+                  return (
+                    <tr key={item.id}>
+                      <td>{i + 1}</td>
+                      <td>{item.task}</td>
+                      <td>{item.hr}</td>
+                      <td className="text-end">
+                        <button
+                          onClick="switchTask('${
+                      item.id
+                    }','entry')"
+                          className="btn btn-warning"
+                        >
+                          <i className="fa-solid fa-arrow-left"></i>
+                        </button>
+                        <button
+                          className="btn btn-danger"
+                          onClick="handleOnDelete('${
+                        item.id
+                      }')"
+                        >
+                          <i className="fa-solid fa-trash"></i>
+                        </button>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
             </table>
 
             <div className="alert alert-success">
