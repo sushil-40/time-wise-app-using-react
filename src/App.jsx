@@ -60,6 +60,7 @@ function App() {
       setTaskList(taskList.filter((item) => item.id !== id));
     }
   };
+
   return (
     <div className="wrapper pt-5">
       {/* <!-- title  --> */}
@@ -78,7 +79,13 @@ function App() {
         />
         <br />
         <div className="alert alert-success">
-          The total hours allocated = <span id="ttlHrs">0</span> hrs
+          The total hours allocated ={" "}
+          <span id="ttlHrs">
+            {taskList.reduce((acc, item) => {
+              return acc + Number(item.hr);
+            }, 0)}
+          </span>{" "}
+          hrs
         </div>
       </div>
     </div>
