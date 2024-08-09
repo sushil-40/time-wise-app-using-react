@@ -77,7 +77,12 @@ export const Table = ({ taskList, switchTask, handleOnDelete }) => {
             </table>
 
             <div className="alert alert-success">
-              You could have saved = <span id="savedHrsElm">0</span>
+              You could have saved ={" "}
+              <span id="savedHrsElm">
+                <span id="savedHrsElm">
+                  {badList.reduce((acc, item) => acc + Number(item.hr), 0)}
+                </span>
+              </span>
             </div>
           </div>
         </div>
