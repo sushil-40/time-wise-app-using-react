@@ -51,6 +51,15 @@ function App() {
     return id;
   };
 
+  // Deleting items from table
+
+  const handleOnDelete = (id) => {
+    if (window.confirm("Are you sure, you want to delete this?")) {
+      //   console.log(id);
+
+      setTaskList(taskList.filter((item) => item.id !== id));
+    }
+  };
   return (
     <div className="wrapper pt-5">
       {/* <!-- title  --> */}
@@ -62,7 +71,11 @@ function App() {
         <Form addTaskList={addTaskList} />
 
         {/* <!-- tables   --> */}
-        <Table taskList={taskList} switchTask={switchTask} />
+        <Table
+          taskList={taskList}
+          switchTask={switchTask}
+          handleOnDelete={handleOnDelete}
+        />
         <br />
         <div className="alert alert-success">
           The total hours allocated = <span id="ttlHrs">0</span> hrs

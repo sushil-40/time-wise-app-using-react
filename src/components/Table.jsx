@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import React from "react";
 
-export const Table = ({ taskList, switchTask }) => {
+export const Table = ({ taskList, switchTask, handleOnDelete }) => {
   const entryList = taskList.filter((item) => item.type === "entry");
   const badList = taskList.filter((item) => item.type === "bad");
 
@@ -22,9 +22,7 @@ export const Table = ({ taskList, switchTask }) => {
                   <td className="text-end">
                     <button
                       className="btn btn-danger"
-                      onClick="handleOnDelete('${
-                                      item.id
-                                    }')"
+                      onClick={() => handleOnDelete(item.id)}
                     >
                       <i className="fa-solid fa-trash"></i>
                     </button>
@@ -67,9 +65,7 @@ export const Table = ({ taskList, switchTask }) => {
                         </button>
                         <button
                           className="btn btn-danger"
-                          onClick="handleOnDelete('${
-                        item.id
-                      }')"
+                          onClick={() => handleOnDelete(item.id)}
                         >
                           <i className="fa-solid fa-trash"></i>
                         </button>
