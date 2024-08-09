@@ -1,20 +1,20 @@
-/* eslint-disable react/prop-types */
+/* eslint-disable no-unused-vars */
 import React, { useState } from "react";
 
 export const Form = ({ addTaskList }) => {
-  const [Form, setForm] = useState({});
+  const [form, setForm] = useState({});
 
   const handleOnChange = (e) => {
     const { name, value } = e.target;
-    setForm({ ...Form, [name]: value });
+    console.log(name, value);
+    setForm({ ...form, [name]: value });
   };
-
   const handleOnSubmit = (e) => {
     e.preventDefault();
-    addTaskList(Form);
+    addTaskList(form);
+    // console.log(e);
   };
 
-  console.log(Form);
   return (
     <form
       onSubmit={handleOnSubmit}
