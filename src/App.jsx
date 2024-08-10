@@ -2,16 +2,29 @@ import { useState } from "react";
 import "./App.css";
 import { Form } from "./components/Form";
 import { Table } from "./components/Table";
-// import { Form } from "./components/Form";
+
+const hoursPerWeek = 24 * 7;
 
 function App() {
   const [taskList, setTaskList] = useState([]);
+
+  const ttlHr = taskList.reduce((acc, item) => {
+    return acc + Number(item.hr);
+  }, 0);
+
   const addTaskList = (taskObj) => {
     const obj = {
       ...taskObj,
       id: randomIdGenerator(),
       type: "entry",
     };
+
+    if (ttlHr + Number(taskObj.hr) > hoursPerWeek) {
+      return alert(
+        "Sorry Boss not enough time to fit this task from last week."
+      );
+    }
+
     setTaskList([...taskList, obj]);
     console.log(taskObj);
   };
@@ -79,13 +92,7 @@ function App() {
         />
         <br />
         <div className="alert alert-success">
-          The total hours allocated ={" "}
-          <span id="ttlHrs">
-            {taskList.reduce((acc, item) => {
-              return acc + Number(item.hr);
-            }, 0)}
-          </span>{" "}
-          hrs
+          The total hours allocated = <span id="ttlHrs">{ttlHr}</span> hrs
         </div>
       </div>
     </div>
