@@ -2,6 +2,7 @@ import { useState } from "react";
 import "./App.css";
 import { Form } from "./components/Form";
 import { Table } from "./components/Table";
+import { postTask } from "./helpers/axiosHelper";
 
 const hoursPerWeek = 24 * 7;
 
@@ -27,6 +28,9 @@ function App() {
 
     setTaskList([...taskList, obj]);
     console.log(taskObj);
+
+    //call api to send data to the database
+    const response = postTask(obj);
   };
 
   // Switch tasks or items
