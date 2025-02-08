@@ -26,3 +26,15 @@ export const postTask = async (data) => {
     };
   }
 };
+
+export const fetchAllTasks = async (data) => {
+  try {
+    const response = await axios.get(apiEP, data);
+    return response.data;
+  } catch (error) {
+    return {
+      status: "error",
+      message: error.message,
+    };
+  }
+};

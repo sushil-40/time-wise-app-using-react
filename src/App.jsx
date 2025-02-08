@@ -1,8 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
 import { Form } from "./components/Form";
 import { Table } from "./components/Table";
-import { postTask } from "./helpers/axiosHelper";
+import { fetchAllTasks, postTask } from "./helpers/axiosHelper";
 
 const hoursPerWeek = 24 * 7;
 
@@ -13,17 +13,11 @@ function App() {
   const ttlHr = taskList.reduce((acc, item) => {
     return acc + Number(item.hr);
   }, 0);
-
+  useEffect(() => {
+    // get All data from database
+    getAllTasks();
+  }, []);
   const addTaskList = async (taskObj) => {
-    // if (ttlHr + Number(taskObj.hr) > hoursPerWeek) {
-    //   return alert(
-    //     "Sorry Boss not enough time to fit this task from last week."
-    //   );
-    // }
-
-    // setTaskList([...taskList, obj]);
-    // console.log(taskObj);
-
     //call api to send data to the database
     const response = await postTask(taskObj);
     console.log(response);
@@ -73,6 +67,17 @@ function App() {
 
       setTaskList(taskList.filter((item) => item.id !== id));
     }
+  };
+
+  //fetch all tasks from Database
+
+  const getAllTasks = async () => {
+    //call the axiosHelper to get data from the server
+
+    const data = await fetchAllTasks();
+    console.log(data);
+    data?.status === "success" && setTaskList(data.tasks);
+    // mount that data to our taskList state
   };
 
   return (
