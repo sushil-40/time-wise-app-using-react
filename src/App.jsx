@@ -13,24 +13,19 @@ function App() {
     return acc + Number(item.hr);
   }, 0);
 
-  const addTaskList = (taskObj) => {
-    const obj = {
-      ...taskObj,
-      id: randomIdGenerator(),
-      type: "entry",
-    };
+  const addTaskList = async (taskObj) => {
+    // if (ttlHr + Number(taskObj.hr) > hoursPerWeek) {
+    //   return alert(
+    //     "Sorry Boss not enough time to fit this task from last week."
+    //   );
+    // }
 
-    if (ttlHr + Number(taskObj.hr) > hoursPerWeek) {
-      return alert(
-        "Sorry Boss not enough time to fit this task from last week."
-      );
-    }
-
-    setTaskList([...taskList, obj]);
-    console.log(taskObj);
+    // setTaskList([...taskList, obj]);
+    // console.log(taskObj);
 
     //call api to send data to the database
-    const response = postTask(obj);
+    const response = await postTask(taskObj);
+    console.log(response);
   };
 
   // Switch tasks or items
