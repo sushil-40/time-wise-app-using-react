@@ -9,6 +9,7 @@ const hoursPerWeek = 24 * 7;
 function App() {
   const [taskList, setTaskList] = useState([]);
 
+  const [resp, setResp] = useState({});
   const ttlHr = taskList.reduce((acc, item) => {
     return acc + Number(item.hr);
   }, 0);
@@ -26,8 +27,9 @@ function App() {
     //call api to send data to the database
     const response = await postTask(taskObj);
     console.log(response);
+    setResp(response);
   };
-
+  console.log(resp);
   // Switch tasks or items
 
   const switchTask = (id, type) => {
@@ -79,10 +81,20 @@ function App() {
 
       <div className="container">
         <h1 className="text-center">Time Wise</h1>
+        {resp?.message && (
+          <div
+            className={
+              resp?.status === "success"
+                ? "alert alert-success"
+                : "alert alert-danger"
+            }
+          >
+            {resp?.message}
+          </div>
+        )}
 
         {/* <!-- form  --> */}
         <Form addTaskList={addTaskList} />
-
         {/* <!-- tables   --> */}
         <Table
           taskList={taskList}
