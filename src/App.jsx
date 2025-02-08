@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import "./App.css";
 import { Form } from "./components/Form";
 import { Table } from "./components/Table";
@@ -10,12 +10,15 @@ function App() {
   const [taskList, setTaskList] = useState([]);
 
   const [resp, setResp] = useState({});
+  const shouldFetchRef = useRef(true);
   const ttlHr = taskList.reduce((acc, item) => {
     return acc + Number(item.hr);
   }, 0);
   useEffect(() => {
     // get All data from database
-    getAllTasks();
+    // preventing from calling getAllTasks() twice (2 - times)
+    shouldFetchRef.current && getAllTasks();
+    shouldFetchRef.current = false;
   }, []);
   const addTaskList = async (taskObj) => {
     //call api to send data to the database

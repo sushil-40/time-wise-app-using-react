@@ -15,7 +15,7 @@ export const Table = ({ taskList, switchTask, handleOnDelete }) => {
           <tbody id="entryList">
             {entryList.map((item, i) => {
               return (
-                <tr key={item.id}>
+                <tr key={item._id}>
                   <td>{i + 1}</td>
                   <td>{item.task}</td>
                   <td>{item.hr}</td>
