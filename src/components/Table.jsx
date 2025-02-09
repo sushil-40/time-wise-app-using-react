@@ -10,18 +10,26 @@ export const Table = ({ taskList, switchTask, handleOnDelete }) => {
     // console.log(e);
     const { checked, value } = e.target;
     console.log(checked, value);
+    let tempArg = [];
+    if (value === "all-entry") {
+      tempArg = entryList;
+    }
+    if (value === "all-bad") {
+      tempArg = badList;
+    }
+
     if (checked) {
-      if (value === "all-entry") {
+      if (value === "all-entry" || value === "all-bad") {
         // get all _ids from entry list
-        const _ids = entryList.map((item) => item._id);
+        const _ids = tempArg.map((item) => item._id);
         //_ids is also array thats why we are spreading below;
         setToDelete([...toDelete, ..._ids]);
         return;
       }
       setToDelete([...toDelete, value]);
     } else {
-      if (value === "all-entry") {
-        const _ids = entryList.map((item) => item._id);
+      if (value === "all-entry" || value === "all-bad") {
+        const _ids = tempArg.map((item) => item._id);
 
         setToDelete(toDelete.filter((_id) => !_ids.includes(_id)));
         return;
@@ -111,6 +119,7 @@ export const Table = ({ taskList, switchTask, handleOnDelete }) => {
                           type="checkbox"
                           value={item?._id}
                           onChange={handleOnSelect}
+                          checked={toDelete.includes(item?._id)}
                         />{" "}
                         {item.task}
                       </td>
