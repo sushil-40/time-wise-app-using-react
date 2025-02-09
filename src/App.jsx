@@ -44,9 +44,10 @@ function App() {
 
   // Deleting items from table
 
-  const handleOnDelete = () => {
+  const handleOnDelete = (idsToDelete) => {
     if (window.confirm("Are you sure, you want to delete this?")) {
       //to do Delete
+      console.log(idsToDelete);
     }
   };
 

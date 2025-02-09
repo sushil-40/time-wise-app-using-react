@@ -76,12 +76,6 @@ export const Table = ({ taskList, switchTask, handleOnDelete }) => {
                     <td>{item.hr}</td>
                     <td className="text-end">
                       <button
-                        className="btn btn-danger"
-                        onClick={() => handleOnDelete(item._id)}
-                      >
-                        <i className="fa-solid fa-trash"></i>
-                      </button>
-                      <button
                         onClick={() => switchTask(item._id, "bad")}
                         className="btn btn-success"
                       >
@@ -135,12 +129,6 @@ export const Table = ({ taskList, switchTask, handleOnDelete }) => {
                           >
                             <i className="fa-solid fa-arrow-left"></i>
                           </button>
-                          <button
-                            className="btn btn-danger"
-                            onClick={() => handleOnDelete(item.id)}
-                          >
-                            <i className="fa-solid fa-trash"></i>
-                          </button>
                         </td>
                       </tr>
                     );
@@ -161,7 +149,12 @@ export const Table = ({ taskList, switchTask, handleOnDelete }) => {
       </div>
       {toDelete.length > 0 && (
         <div className="row my-5 d-grid">
-          <div className="btn btn-danger">Delete {toDelete.length} task(s)</div>
+          <button
+            onClick={() => handleOnDelete(toDelete)}
+            className="btn btn-danger"
+          >
+            Delete {toDelete.length} task(s)
+          </button>
         </div>
       )}
     </>
