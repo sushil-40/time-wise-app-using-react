@@ -22,8 +22,11 @@ export const Table = ({ taskList, switchTask, handleOnDelete }) => {
       if (value === "all-entry" || value === "all-bad") {
         // get all _ids from entry list
         const _ids = tempArg.map((item) => item._id);
+
+        // to remove duplicate value we use following method in js
+        const uniqueIds = [...new Set([...toDelete, ..._ids])];
         //_ids is also array thats why we are spreading below;
-        setToDelete([...toDelete, ..._ids]);
+        setToDelete(uniqueIds);
         return;
       }
       setToDelete([...toDelete, value]);
