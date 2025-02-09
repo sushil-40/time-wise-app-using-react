@@ -58,7 +58,7 @@ export const Table = ({ taskList, switchTask, handleOnDelete }) => {
                       <td>{item.hr}</td>
                       <td className="text-end">
                         <button
-                          onClick={() => switchTask(item.id, "entry")}
+                          onClick={() => switchTask(item._id, "entry")}
                           className="btn btn-warning"
                         >
                           <i className="fa-solid fa-arrow-left"></i>

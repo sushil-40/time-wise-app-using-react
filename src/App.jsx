@@ -30,19 +30,12 @@ function App() {
   // Switch tasks or items
 
   const switchTask = async (_id, type) => {
-    //   console.log(id, type);
-    // setTaskList(
-    //   taskList.map((item) => {
-    //     console.log(item);
-    //     if (item.id === id) {
-    //       item.type = type;
-    //     }
-    //     return item;
-    //   })
-    // );
-
     const response = await updateTasks({ _id, type });
     setResp(response);
+    if (response.status === "success") {
+      //re-fetch all the data
+      getAllTasks();
+    }
   };
 
   console.log(taskList);
