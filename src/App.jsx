@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import "./App.css";
 import { Form } from "./components/Form";
 import { Table } from "./components/Table";
-import { fetchAllTasks, postTask } from "./helpers/axiosHelper";
+import { fetchAllTasks, postTask, updateTasks } from "./helpers/axiosHelper";
 
 const hoursPerWeek = 24 * 7;
 
@@ -29,19 +29,20 @@ function App() {
   console.log(resp);
   // Switch tasks or items
 
-  const switchTask = (id, type) => {
+  const switchTask = async (_id, type) => {
     //   console.log(id, type);
+    // setTaskList(
+    //   taskList.map((item) => {
+    //     console.log(item);
+    //     if (item.id === id) {
+    //       item.type = type;
+    //     }
+    //     return item;
+    //   })
+    // );
 
-    setTaskList(
-      taskList.map((item) => {
-        console.log(item);
-
-        if (item.id === id) {
-          item.type = type;
-        }
-        return item;
-      })
-    );
+    const response = await updateTasks({ _id, type });
+    setResp(response);
   };
 
   console.log(taskList);

@@ -38,3 +38,14 @@ export const fetchAllTasks = async (data) => {
     };
   }
 };
+export const updateTasks = async (data) => {
+  try {
+    const response = await axios.patch(apiEP, data);
+    return response.data;
+  } catch (error) {
+    return {
+      status: "error",
+      message: error.message,
+    };
+  }
+};
