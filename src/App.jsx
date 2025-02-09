@@ -23,10 +23,14 @@ function App() {
   const addTaskList = async (taskObj) => {
     //call api to send data to the database
     const response = await postTask(taskObj);
-    console.log(response);
+
     setResp(response);
+    if (response.status === "success") {
+      //re-fetch all the data
+      getAllTasks();
+    }
   };
-  console.log(resp);
+
   // Switch tasks or items
 
   const switchTask = async (_id, type) => {
@@ -38,31 +42,11 @@ function App() {
     }
   };
 
-  console.log(taskList);
-
-  // Creating unique ID
-
-  const randomIdGenerator = (length = 6) => {
-    const str =
-      "qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM1234567890";
-
-    let id = "";
-    for (let i = 0; i < 6; i++) {
-      const randomIndex = Math.floor(Math.random() * str.length); // 0 -to- 61
-      // Math.random()*str.length;  // 0 - to - 61.999
-
-      id += str[randomIndex];
-    }
-    return id;
-  };
-
   // Deleting items from table
 
-  const handleOnDelete = (id) => {
+  const handleOnDelete = () => {
     if (window.confirm("Are you sure, you want to delete this?")) {
-      //   console.log(id);
-
-      setTaskList(taskList.filter((item) => item.id !== id));
+      //to do Delete
     }
   };
 
@@ -72,7 +56,7 @@ function App() {
     //call the axiosHelper to get data from the server
 
     const data = await fetchAllTasks();
-    console.log(data);
+
     data?.status === "success" && setTaskList(data.tasks);
     // mount that data to our taskList state
   };

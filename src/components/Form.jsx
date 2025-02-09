@@ -7,7 +7,7 @@ export const Form = ({ addTaskList }) => {
 
   const handleOnChange = (e) => {
     const { name, value } = e.target;
-    console.log(name, value);
+
     setForm({ ...form, [name]: value });
   };
   const handleOnSubmit = (e) => {
@@ -19,7 +19,7 @@ export const Form = ({ addTaskList }) => {
   return (
     <form
       onSubmit={handleOnSubmit}
-      action="javascript:void(0)"
+      // action="javascript:void(0)"
       className="border p-5 rounded shadow-lg mt-5"
     >
       <div className="row g-2">
