@@ -1,46 +1,14 @@
 /* eslint-disable react/prop-types */
 import React, { useState } from "react";
 
-export const Table = ({ taskList, switchTask, handleOnDelete }) => {
-  const [toDelete, setToDelete] = useState([]);
-  const entryList = taskList.filter((item) => item.type === "entry");
-  const badList = taskList.filter((item) => item.type === "bad");
-
-  const handleOnSelect = (e) => {
-    // console.log(e);
-    const { checked, value } = e.target;
-    console.log(checked, value);
-    let tempArg = [];
-    if (value === "all-entry") {
-      tempArg = entryList;
-    }
-    if (value === "all-bad") {
-      tempArg = badList;
-    }
-
-    if (checked) {
-      if (value === "all-entry" || value === "all-bad") {
-        // get all _ids from entry list
-        const _ids = tempArg.map((item) => item._id);
-
-        // to remove duplicate value we use following method in js
-        const uniqueIds = [...new Set([...toDelete, ..._ids])];
-        //_ids is also array thats why we are spreading below;
-        setToDelete(uniqueIds);
-        return;
-      }
-      setToDelete([...toDelete, value]);
-    } else {
-      if (value === "all-entry" || value === "all-bad") {
-        const _ids = tempArg.map((item) => item._id);
-
-        setToDelete(toDelete.filter((_id) => !_ids.includes(_id)));
-        return;
-      }
-      setToDelete(toDelete.filter((_id) => _id != value));
-    }
-  };
-  console.log(toDelete);
+export const Table = ({
+  switchTask,
+  handleOnDelete,
+  toDelete,
+  handleOnSelect,
+  entryList,
+  badList,
+}) => {
   return (
     <>
       <div className="row mt-5">
@@ -69,7 +37,9 @@ export const Table = ({ taskList, switchTask, handleOnDelete }) => {
                         type="checkbox"
                         value={item?._id}
                         onChange={handleOnSelect}
-                        checked={toDelete.includes(item?._id)}
+                        checked={
+                          item.length > 0 ? toDelete.includes(item?._id) : ""
+                        }
                       />{" "}
                       {item.task}
                     </td>

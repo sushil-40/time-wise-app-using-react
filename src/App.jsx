@@ -2,7 +2,12 @@ import { useEffect, useRef, useState } from "react";
 import "./App.css";
 import { Form } from "./components/Form";
 import { Table } from "./components/Table";
-import { fetchAllTasks, postTask, updateTasks } from "./helpers/axiosHelper";
+import {
+  fetchAllTasks,
+  postTask,
+  updateTasks,
+  deleteTasks,
+} from "./helpers/axiosHelper";
 
 const hoursPerWeek = 24 * 7;
 
@@ -14,6 +19,10 @@ function App() {
   const ttlHr = taskList.reduce((acc, item) => {
     return acc + Number(item.hr);
   }, 0);
+  const [toDelete, setToDelete] = useState([]);
+  const entryList = taskList.filter((item) => item.type === "entry");
+  const badList = taskList.filter((item) => item.type === "bad");
+
   useEffect(() => {
     // get All data from database
     // preventing from calling getAllTasks() twice (2 - times)
@@ -44,10 +53,20 @@ function App() {
 
   // Deleting items from table
 
-  const handleOnDelete = (idsToDelete) => {
+  const handleOnDelete = async (idsToDelete) => {
     if (window.confirm("Are you sure, you want to delete this?")) {
       //to do Delete
-      console.log(idsToDelete);
+
+      const response = await deleteTasks(idsToDelete);
+      console.log(response);
+      setResp(response);
+      if (response.status === "success") {
+        //re-fetch all the data
+        getAllTasks();
+
+        //empty the toDelete[]
+        setToDelete([]);
+      }
     }
   };
 
@@ -60,6 +79,40 @@ function App() {
 
     data?.status === "success" && setTaskList(data.tasks);
     // mount that data to our taskList state
+  };
+  const handleOnSelect = (e) => {
+    // console.log(e);
+    const { checked, value } = e.target;
+    console.log(checked, value);
+    let tempArg = [];
+    if (value === "all-entry") {
+      tempArg = entryList;
+    }
+    if (value === "all-bad") {
+      tempArg = badList;
+    }
+
+    if (checked) {
+      if (value === "all-entry" || value === "all-bad") {
+        // get all _ids from entry list
+        const _ids = tempArg.map((item) => item._id);
+
+        // to remove duplicate value we use following method in js
+        const uniqueIds = [...new Set([...toDelete, ..._ids])];
+        //_ids is also array thats why we are spreading below;
+        setToDelete(uniqueIds);
+        return;
+      }
+      setToDelete([...toDelete, value]);
+    } else {
+      if (value === "all-entry" || value === "all-bad") {
+        const _ids = tempArg.map((item) => item._id);
+
+        setToDelete(toDelete.filter((_id) => !_ids.includes(_id)));
+        return;
+      }
+      setToDelete(toDelete.filter((_id) => _id != value));
+    }
   };
 
   return (
@@ -87,6 +140,10 @@ function App() {
           taskList={taskList}
           switchTask={switchTask}
           handleOnDelete={handleOnDelete}
+          toDelete={toDelete}
+          handleOnSelect={handleOnSelect}
+          entryList={entryList}
+          badList={badList}
         />
         <br />
         <div className="alert alert-success">
