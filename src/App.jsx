@@ -30,6 +30,9 @@ function App() {
     shouldFetchRef.current = false;
   }, []);
   const addTaskList = async (taskObj) => {
+    if (ttlHr + +taskObj.hr > hoursPerWeek) {
+      return alert("Sorry Boss not enough time fit this task from last week.");
+    }
     //call api to send data to the database
     const response = await postTask(taskObj);
 
